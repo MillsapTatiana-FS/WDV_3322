@@ -1,0 +1,23 @@
+{
+  "name": "wdv_3322",
+  "version": "1.0.0",
+  "description": "WDV_3322",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MillsapTatiana-FS/WDV_3322.git"
+  },
+  "keywords": [
+    "WDV_3322"
+  ],
+  "author": "Tatiana Millsap",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MillsapTatiana-FS/WDV_3322/issues"
+  },
+  "homepage": "https://github.com/MillsapTatiana-FS/WDV_3322#readme"
+}
