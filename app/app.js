@@ -4,6 +4,7 @@ const app = express();
 const options = require('../config/options');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const user = require('../api/model/user');
 
 require("dotenv").config();
 
@@ -35,6 +36,9 @@ app.get('/', (req,res,next) => {
     });
 });
 
+app.get('/users/:email_id', (req, res, next) => {
+    const email_id = req.params.email_id;
+})
 app.use('/users', userRoute);
 // add middleware to handle errors and bad url paths
 app.use((req, res, next) => {
@@ -49,6 +53,36 @@ app.use((error, req, res, next) => {
                 message: error.message,
                 status: error.status,
             },
+        });
+    });
+
+    app.post('/signup', (req, res) => {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+            if (err) {
+                res.status(500).json({ message: err.message });
+            } else {
+                user.password = hash;
+                res.status(200).json({ password: hash});
+            }
+        });
+    });
+
+    app.post('/login', (req, res) => {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if (err) return res.status(501).json({
+                message: err.message
+            });
+            if (result){
+                res.status(200).json({
+                    message: "Authoriztion Successful",
+                    result: result,
+                });
+            } else {
+                    res.status(401).json({
+                        message: "Authoriztion Failed",
+                        result: result,
+                });
+            }
         });
     });
 //connect to mongoDB

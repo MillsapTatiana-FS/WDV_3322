@@ -1,13 +1,14 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 //Bring in user model
+const user = require('../api/model/user');
+
 const connect = async () => {
     console.log('Connecting');
-    await mongoose.connect('mongodb://localhost:27017/users')
+    await mongoose.connect('mongodb://localhost:27017/users/')
 };
 
-const findUser = async (obj) => {
-
-    //await userInfo.findOne(obj).exec()
+const findUser = async (user) => {
+    await userInfo.findOne({ firstName: 'Tatiana' }).exec();
 };
 
 const saveUser = async (user) => {

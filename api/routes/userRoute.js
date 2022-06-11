@@ -1,12 +1,13 @@
 const express = require('express');
 const user = require('../model/user');
 const router = express.Router();
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 router.use(express.json());
 
 router.post('/signup', (req, res, next) => {
-    // findUser by email address findOne{email_id:}
+    // findUser by email address findOne{email: _id}
     // if user exist return status 409 message: email/user exist otherwise encryp password
     //create new user object with hash password as password
     //save user
@@ -17,7 +18,7 @@ router.post('/signup', (req, res, next) => {
                 message: err.message,
             });
         } else {
-            const user = new user({
+            const User = new user({
                 _id: mongoose.Types.ObjectId(),
                 firstName: req.body.firstName,
                 email: req.body.email,
@@ -25,7 +26,7 @@ router.post('/signup', (req, res, next) => {
             });
             res.status(201).json({
                 message: 'Signup - POST',
-                user: user,
+                user: User,
             });
         }
     });
