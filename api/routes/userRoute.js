@@ -3,10 +3,28 @@ const user = require('../model/user');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { findUser } = require('../../db/db');
 
 router.use(express.json());
 
+router.get('/profile', (req, res, next) => {
+    res.status(200).json({
+        message: '/profile - GET',
+    });
+});
+
 router.post('/signup', (req, res, next) => {
+   
+    user.find({ 
+        _id: email
+     })
+     .exec()
+    .then(result => {
+        if (result.length > 0) {
+            return res.status(406).json({
+                message: 'Email not found'
+            })
+        }
     // findUser by email address findOne{email: _id}
     // if user exist return status 409 message: email/user exist otherwise encryp password
     //create new user object with hash password as password
@@ -24,13 +42,15 @@ router.post('/signup', (req, res, next) => {
                 email: req.body.email,
                 password: hash,
             });
+            newUser.save();
+
             res.status(201).json({
                 message: 'Signup - POST',
                 user: User,
             });
         }
     });
-});
+})});
 
 router.post('/login', (req,res, next) => {
     //find user
@@ -59,11 +79,7 @@ router.post('/login', (req,res, next) => {
     });
 });
 
-router.get('/profile', (req, res, next) => {
-    res.status(200).json({
-        message: '/profile - GET',
-    });
-});
+
 
 
 

@@ -8,7 +8,11 @@ const connect = async () => {
 };
 
 const findUser = async (user) => {
-    await userInfo.findOne({ firstName: 'Tatiana' }).exec();
+    await userInfo.findOne({ 
+        email: req.body.email,
+     })
+     .exec();
+     
 };
 
 const saveUser = async (user) => {
