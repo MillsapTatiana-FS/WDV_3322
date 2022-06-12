@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/signup', (req, res, next) => {
+router.post(':/signup', (req, res, next) => {
     user.find({ 
         _id: req.body.email
      })
@@ -32,7 +32,7 @@ router.post('/signup', (req, res, next) => {
             _id: mongoose.Types.ObjectId(),
             firstName: req.body.firstName,
             email: req.body.email,
-            password: hash,
+            password: req.body.hash,
         });
         bcrypt.hash(password, 10, (err, hash) => {
             if (err) {
