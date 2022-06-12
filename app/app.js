@@ -36,6 +36,7 @@ app.get('/', (req,res,next) => {
     });
 });
 
+
 app.get('/users/:email_id', (req, res, next) => {
     const email_id = req.params.email_id;
 })
