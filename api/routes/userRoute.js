@@ -6,34 +6,40 @@ const bcrypt = require('bcrypt');
 
 router.use(express.json());
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: '/profile - GET',
-    });
-});
-
-router.post('/signup', (req, res, next) => {
-    user.find({ 
-        _id: req.body.email
-     })
-    .exec()
-    .then(result => {
-        if (result.length > 0){
-            return res.status(409).json({
-                message: 'Email found, user exists'
-            })
+router.post('/signup', (req,res) => {
+//{email: req.body.email}
+//look for a user object in Mongo
+//if not found encrypt password
+//made user model and save to mongodb
+    const password = req.body.password;
+    bcrypt.hash(password, 10, (err, hash) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
         } else {
-    // findUser by email address findOne{email: _id}
-    // if user exist return status 409 message: email/user exist otherwise encryp password
-    //create new user object with hash password as password
-    //save user
-        const password = req.body.password;
-        const newUser = new user({
-            _id: mongoose.Types.ObjectId(),
-            firstName: req.body.firstName,
-            email: req.body.email,
-            password: hash,
-        });
+            const user = new user({
+                _id: mongoose.Types.ObjectId(),
+                firstName: req.body.firstName,
+                email: req.body.email,
+                password: hash,
+            });
+            //save to db
+            res.status(201).json({
+                message: 'User Created',
+                firstName: req.body.firstName,
+                });
+        }})});
+
+router.post('/login', (req, res) => {
+        const email = req.body.email;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+    //  findUser by email address findOne{email: _id}
+    // if not found return Auth Failed
+    // else
+    // compare passwords using bcrypt get error or result of true or false
+    // if error return err.message
+    // else return response
+        
         bcrypt.hash(password, 10, (err, hash) => {
             if (err) {
                 res.status(500).json({
@@ -58,7 +64,7 @@ router.post('/signup', (req, res, next) => {
                     })});
 };
 
-router.get('/login', (req,res, next) => {
+router.get('/profile', (req,res, next) => {
    const userEmail = req.params.email;
    
    user.findById({
@@ -86,17 +92,8 @@ router.get('/login', (req,res, next) => {
                 message: 'Error occurred'
             }
         });
-        res.status(200).json({
-            message: '/login - POST',
-        });
     })
-    //find user
-    //if not found return 401 message:vAuth failed
-    //else
-    //compare password and test for error
-    //test result(like previous video)
-    //message auth successful
-    })});
-}})});
+   
+})})});
 
 module.exports = router;
