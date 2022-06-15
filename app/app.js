@@ -3,6 +3,7 @@ const userRoute = require('../api/routes/userRoute');
 const app = express();
 const options = require('../config/options');
 const cors = require('cors');
+const {mongoose } = require('mongoose');
 
 require("dotenv").config();
 
@@ -28,4 +29,11 @@ app.use((error, req, res, next) => {
         });
     });
 
+    mongoose.connect(process.env.mongoDBURL, (err) => {
+        if (err) {
+            console.error('Error', err.message);
+        } else {
+            console.log('MongoDB Connection successful');
+        }
+    });
 module.exports = app;

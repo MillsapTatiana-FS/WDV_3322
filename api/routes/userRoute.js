@@ -6,9 +6,10 @@ const bcrypt = require('bcrypt');
 
 router.use(express.json());
 
-router.post('/signup', (req,res) => {
+router.post('/signup', (req, res,next) => {
 //{email: req.body.email}
 //look for a user object in Mongo
+//if user email exist
 //if not found encrypt password
 //made user model and save to mongodb
     const password = req.body.password;
@@ -29,7 +30,7 @@ router.post('/signup', (req,res) => {
                 });
         }})});
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
         const email = req.body.email;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
@@ -64,7 +65,7 @@ router.post('/login', (req, res) => {
                     })});
 };
 
-router.get('/profile', (req,res) => {
+router.get('/profile', (req,res, next) => {
    const userEmail = req.params.email;
    
    user.findById({
@@ -82,7 +83,7 @@ router.get('/profile', (req,res) => {
                 })
              else {
                 return res.status(200).json({
-                    message: 'Login - POST, Authorization Successful'
+                    message: 'Profile - GET,  Authorization Successful'
                 })
             }
         })}})

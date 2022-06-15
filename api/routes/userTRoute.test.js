@@ -1,6 +1,5 @@
 const express = require('express');
 const request = require('supertest');
-const { response } = require('../../app/app');
 const userRoute = require("./userRoute");
 
 const app = express();
@@ -15,6 +14,6 @@ describe("Test User Routes", () => {
             .then(response =>{
                 expect(response.body.message).toEqual('User Profile - GET');
                 expect(response.body.hostname).toEqual('127.0.0.1');
-            })
-    })
-})
+            });
+    });
+});
