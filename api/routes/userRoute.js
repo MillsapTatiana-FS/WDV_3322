@@ -64,7 +64,7 @@ router.post('/login', (req, res) => {
                     })});
 };
 
-router.get('/profile', (req,res, next) => {
+router.get('/profile', (req,res) => {
    const userEmail = req.params.email;
    
    user.findById({
