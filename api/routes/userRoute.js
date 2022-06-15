@@ -3,7 +3,6 @@ const user = require('../model/user');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const user = require('../model/user');
 
 router.use(express.json());
 
@@ -30,7 +29,7 @@ router.post('/signup', (req,res) => {
                 });
         }})});
 
-router.post('/login, (req, res) => {
+router.post('/login', (req, res) => {
         const email = req.body.email;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
@@ -63,7 +62,7 @@ router.post('/login, (req, res) => {
                                 message: 'User not saved'
                             }
                     })});
-})});
+};
 
 router.get('/profile', (req,res, next) => {
    const userEmail = req.params.email;
@@ -95,6 +94,6 @@ router.get('/profile', (req,res, next) => {
         });
     })
    
-    })});
+})})});
 
 module.exports = router;
