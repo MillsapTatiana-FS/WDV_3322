@@ -14,22 +14,9 @@ const postUser = async(user) => {
     });
 };
 
-const findUser = async (user) => {
-    await userInfo.findOne({ 
-        email: req.body.email,
-     })
-     .exec();
-};
-
-const saveUser = async (user) => {
-    console.log('Real User');
-   return await user.save();
-};
-
 const disconnect = async () => {
-    console.log('Disconnecting');
-   await mongoose.connection.close();
+    console.log('Mock Disconnect');
 };
 
 
-module.exports = { connect, findUser, postUser, saveUser,  disconnect };
+module.exports = { connect, postUser,  disconnect };

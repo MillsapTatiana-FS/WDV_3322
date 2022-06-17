@@ -6,10 +6,10 @@ jest.mock('./db.js');
 
 describe("DB Functions", () => {
     test("As a user I want to post a user to MongodDB", async () => {
-        const newUser = new User({
+        const newUser = User({
             _id: mongoose.Types.ObjectId(),
             firstName: 'Tatiana',
-            email: "tmmillsap@student.fullsail.edu",
+            email: 'tmmillsap@student.fullsail.edu',
             password: 'Apollo',
         });
 
