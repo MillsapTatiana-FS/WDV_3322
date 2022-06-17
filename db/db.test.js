@@ -2,9 +2,11 @@ const { connect,  saveUser,  disconnect } = require('./db');
 const User = require("../api/model/user");
 const mongoose = require("mongoose");
 
+jest.mock('./db.js');
+
 describe("DB Functions", () => {
-    test("As a user I want to post a user to MongodDB", () => {
-        const newUser = newUser({
+    test("As a user I want to post a user to MongodDB", async () => {
+        const newUser = new User({
             _id: mongoose.Types.ObjectId(),
             firstName: 'Tatiana',
             email: "tmmillsap@student.fullsail.edu",

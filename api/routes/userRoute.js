@@ -17,7 +17,7 @@ router.post('/signup', (req, res,next) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else {
-            const user = new user({
+            const user = new User({
                 _id: mongoose.Types.ObjectId(),
                 firstName: req.body.firstName,
                 email: req.body.email,
@@ -31,28 +31,29 @@ router.post('/signup', (req, res,next) => {
         }})});
 
 router.post('/login', (req, res, next) => {
-        const email = req.body.email;
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
     //  findUser by email address findOne{email: _id}
     // if not found return Auth Failed
     // else
     // user returned with user info and a HASHED PW     
-    bcrypt.compare(req.body.password, req.body.hash, (err, result) => {
+    bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
         if(err)return res.status(501).json({message: 'Authorization Failed' })
         if(result){
             res.status(200).json({
             message: 'Login - POST,  Authorization Successful',
             result: result,
-            name: firstName
+            name: req.body.firstName
             })
+        }
+        else {
+            res.status(409).json({
+                message: 'Authorization Failed',
+            });
         }
     });
 });
 
 router.get('/profile', (req,res, next) => {
-   
-   
+
 });
 
 module.exports = router;

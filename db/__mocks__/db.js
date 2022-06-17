@@ -1,15 +1,17 @@
-const mongoose = require("mongoose");
 //Bring in user model
 const user = require('../api/model/user');
 
 const connect = async () => {
-    console.log('Connecting');
-    await mongoose.connect('mongodb://localhost:27017/users/')
+    console.log('Mock Connection');
 };
 
 const postUser = async(user) => {
-    console.log('Real User');
-    return await user.save();
+    console.log('Mock User');
+    return Promise.resolve({
+        firstName: 'Tatiana',
+        email: 'tmmillsap@student.fullsail.edu',
+        password: 'Apollo',
+    });
 };
 
 const findUser = async (user) => {
