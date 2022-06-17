@@ -1,11 +1,11 @@
 //Bring in user model
-const user = require('../api/model/user');
+const User = require('../api/model/user');
 
 const connect = async () => {
     console.log('Mock Connection');
 };
 
-const postUser = async(user) => {
+const postUser = async(User) => {
     console.log('Mock User');
     return Promise.resolve({
         firstName: 'Tatiana',

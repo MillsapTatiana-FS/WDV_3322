@@ -1,5 +1,5 @@
 const { connect,  saveUser,  disconnect } = require('./db');
-const User = require("../api/model/user");
+const User = require("../api/model/user.js");
 const mongoose = require("mongoose");
 
 jest.mock('./db.js');

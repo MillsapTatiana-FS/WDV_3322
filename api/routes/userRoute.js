@@ -17,7 +17,7 @@ router.post('/signup', (req, res,next) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else {
-            const user = new User({
+            user = new User({
                 _id: mongoose.Types.ObjectId(),
                 firstName: req.body.firstName,
                 email: req.body.email,
@@ -34,26 +34,39 @@ router.post('/login', (req, res, next) => {
     //  findUser by email address findOne{email: _id}
     // if not found return Auth Failed
     // else
-    // user returned with user info and a HASHED PW     
-    bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
-        if(err)return res.status(501).json({message: 'Authorization Failed' })
-        if(result){
-            res.status(200).json({
-            message: 'Login - POST,  Authorization Successful',
-            result: result,
-            name: req.body.firstName
-            })
-        }
-        else {
-            res.status(409).json({
-                message: 'Authorization Failed',
-            });
-        }
-    });
+    // user returned with user info and a HASHED PW
+    user.findOne({_id: email})
+    .then(   
+        bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
+            if(err)return res.status(501).json({message: 'Authorization Failed' })
+            if(result){
+                res.status(200).json({
+                message: 'Login - POST,  Authorization Successful',
+                result: result,
+                name: req.body.firstName
+                })
+            }
+            else {
+                res.status(409).json({
+                    message: 'Authorization Failed',
+                });
+            }
+        }));
 });
 
 router.get('/profile', (req,res, next) => {
 
-});
+    user.findOne({_id: email})
+    .populate("user","email")
+    .then (result => {
+        if(err)return res.status(501).json({message: 'Authorization Failed' })
+        if(result){
+            res.status(200).json({
+            message: 'Profile - GET,  Profile found',
+            result: result,
+            email: req.body.email
+            })
+        };
+})});
 
 module.exports = router;
