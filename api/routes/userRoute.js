@@ -6,18 +6,19 @@ const bcrypt = require('bcrypt');
 
 router.use(express.json());
 
-router.post('/signup', (req, res,next) => {
+router.post('signup', (req, res,next) => {
 //{email: req.body.email}
 //look for a user object in Mongo
 //if user email exist
 //if not found encrypt password
 //made user model and save to mongodb
-    const password = req.body.password;
+user.findOne({email: req.body.email})
+const password = req.user.password;
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-            res.status(500).json({ error: err.message });
+            res.status(500).json({ message: err.message });
         } else {
-            user = new User({
+            const user = new user({
                 _id: mongoose.Types.ObjectId(),
                 firstName: req.body.firstName,
                 email: req.body.email,
@@ -25,12 +26,13 @@ router.post('/signup', (req, res,next) => {
             });
             //save to db
             res.status(201).json({
-                message: 'User Created',
-                firstName: req.body.firstName,
+                message: 'Signup - POST',
+                user: user
                 });
-        }})});
+        }
+    })});
 
-router.post('/login', (req, res, next) => {
+router.post('login', (req, res, next) => {
     //  findUser by email address findOne{email: _id}
     // if not found return Auth Failed
     // else
@@ -38,7 +40,7 @@ router.post('/login', (req, res, next) => {
     user.findOne({_id: email})
     .then(   
         bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
-            if(err)return res.status(501).json({message: 'Authorization Failed' })
+            if(err)return res.status(501).json({message: err.message })
             if(result){
                 res.status(200).json({
                 message: 'Login - POST,  Authorization Successful',
@@ -62,10 +64,8 @@ router.get('/profile', (req,res, next) => {
         if(err)return res.status(501).json({message: 'Authorization Failed' })
         if(result){
             res.status(200).json({
-            message: 'Profile - GET,  Profile found',
-            result: result,
-            email: req.body.email
-            })
+            message: '/profile - GET',
+            });
         };
 })});
 

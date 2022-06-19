@@ -1,5 +1,5 @@
 //Bring in user model
-const User = require('../api/model/user');
+const User = ('../api/model/user');
 
 const connect = async () => {
     console.log('Mock Connection');
@@ -19,4 +19,4 @@ const disconnect = async () => {
 };
 
 
-module.exports = { connect, postUser,  disconnect };
+module.exports = { User, connect, postUser,  disconnect };

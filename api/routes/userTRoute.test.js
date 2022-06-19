@@ -9,7 +9,7 @@ app.use(userRoute);
 describe("Test User Routes", () => {
     test("Get Profile", async () => {
         await request(app)
-            .get("/profile")
+            .get('./profile')
             .expect(200)
             .then(response =>{
                 expect(response.body.message).toEqual('User Profile - GET');

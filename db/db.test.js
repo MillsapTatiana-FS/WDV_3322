@@ -1,5 +1,5 @@
-const { connect,  saveUser,  disconnect } = require('./db');
-const User = require("../api/model/user.js");
+const { connect,  postUser,  disconnect } = require('./db');
+const User = require('../api/model/user.js');
 const mongoose = require("mongoose");
 
 jest.mock('./db.js');
@@ -14,7 +14,7 @@ describe("DB Functions", () => {
         });
 
         await connect();
-        const user = await saveUser(newUser);
+        const user = await postUser(newUser);
         expect(user.firstName).toEqual('Tatiana');
         expect(user.email).toEqual('tmmillsap@student.fullsail.edu');
         expect(user.password).toEqual('Apollo');
