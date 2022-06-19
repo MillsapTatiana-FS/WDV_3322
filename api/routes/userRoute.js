@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 router.use(express.json());
 
-router.post('signup', (req, res,next) => {
+router.post('/signup', (req, res,next) => {
 //{email: req.body.email}
 //look for a user object in Mongo
 //if user email exist
@@ -18,7 +18,7 @@ const password = req.user.password;
         if (err) {
             res.status(500).json({ message: err.message });
         } else {
-            const user = new user({
+            const user = new User({
                 _id: mongoose.Types.ObjectId(),
                 firstName: req.body.firstName,
                 email: req.body.email,
@@ -32,12 +32,12 @@ const password = req.user.password;
         }
     })});
 
-router.post('login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     //  findUser by email address findOne{email: _id}
     // if not found return Auth Failed
     // else
     // user returned with user info and a HASHED PW
-    user.findOne({_id: email})
+    user.findOne({email: req.body.email})
     .then(   
         bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
             if(err)return res.status(501).json({message: err.message })

@@ -12,6 +12,10 @@ app.use(cors(options));
 
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Service is Up"});
+});
+
 app.use('/userRoute', userRoute);
 // add middleware to handle errors and bad url paths
 app.use((req, res, next) => {
