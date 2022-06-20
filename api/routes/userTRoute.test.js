@@ -1,5 +1,5 @@
-const express = require('express');
-const request = require('supertest');
+const express = require("express");
+const request = require("supertest");
 const userRoute = require("./userRoute");
 
 const app = express();
@@ -11,9 +11,9 @@ describe("Test User Routes", () => {
         await request(app)
             .get('/profile')
             .expect(200)
-            .then(response =>{
+            .then((response) => {
                 expect(response.body.message).toEqual('User Profile - GET');
-                expect(response.body.hostname).toEqual('127.0.0.1/');
+                expect(response.body.hostname).toEqual('127.0.0.1');
             });
     });
 });
