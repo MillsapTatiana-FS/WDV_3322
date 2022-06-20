@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/userRoute', userRoute);
+app.use("/post", postRoute);
 // add middleware to handle errors and bad url paths
 app.use((req, res, next) => {
     const error = new Error ('NOT FOUND!!! ');

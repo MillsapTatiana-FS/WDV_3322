@@ -3,6 +3,7 @@ const user = require('../model/user');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('json');
 
 router.use(express.json());
 
@@ -37,10 +38,15 @@ router.post('/login', (req, res, next) => {
     // if not found return Auth Failed
     // else
     // user returned with user info and a HASHED PW
+    const email = req.body.email;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
     user.findOne({email: req.body.email})
     .then(   
         bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
             if(err)return res.status(501).json({message: err.message })
+            let result = true;
             if(result){
                 res.status(200).json({
                 message: 'Login - POST,  Authorization Successful',
@@ -53,10 +59,15 @@ router.post('/login', (req, res, next) => {
                     message: 'Authorization Failed',
                 });
             }
+            if(result){} else {
+                res.status(401).json({
+                    message: 'Authorization Failed'
+                })
+            };
         }));
 });
 
-router.get('/profile', (req,res, next) => {
+router.get('/profile', checkAuth , (req,res, next) => {
 
     user.findOne({_id: email})
     .populate("user","email")
