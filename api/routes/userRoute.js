@@ -47,7 +47,6 @@ router.post('/login', (req, res) => {
     .then(   
         bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
             if(err)return res.status(501).json({message: err.message })
-            let result = true;
             if(result){
                 res.status(200).json({
                 message: 'Login - POST,  Authorization Successful',
