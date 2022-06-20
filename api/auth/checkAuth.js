@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-module.exports = (req, res, next) => {
+const checkAuth = (req, res, next) => {
     try {
         const [bearer, token] = req.headers.authorization.split(' ');
         const payload = jwt.verify(token, process.env.key);
@@ -11,3 +11,4 @@ module.exports = (req, res, next) => {
     }
 };
 
+module.exports = checkAuth;
