@@ -3,7 +3,8 @@ const user = require('../model/user');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const jwt = require('json');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.use(express.json());
 
@@ -33,7 +34,7 @@ const password = req.user.password;
         }
     })});
 
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
     //  findUser by email address findOne{email: _id}
     // if not found return Auth Failed
     // else
@@ -59,10 +60,21 @@ router.post('/login', (req, res, next) => {
                     message: 'Authorization Failed',
                 });
             }
-            if(result){} else {
+            if(result){
+                const token = jwt.sign(
+                    { email: email, firstName: firstName, lastName: lastName },
+                    process.env.secret
+                );
+
+                res.status(201).json({
+                    message: 'Authorization Successful',
+                    token: token,
+                    name: firstName,
+                });
+            } else {
                 res.status(401).json({
-                    message: 'Authorization Failed'
-                })
+                    message: 'Authorization Failed',
+                });
             };
         }));
 });
