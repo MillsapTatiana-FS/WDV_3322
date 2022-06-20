@@ -1,23 +1,27 @@
 const mongoose = require("mongoose");
 //Bring in user model
-const user = require('../api/model/user');
+const User = require('../api/model/user');
 
 const connect = async () => {
     console.log('Connecting');
     await mongoose.connect('mongodb://localhost:27017/users/')
 };
 
-const findUser = async (user) => {
+const postUser = async(User) => {
+    console.log('Real User');
+    return await User.save();
+};
+
+const findUser = async (User) => {
     await userInfo.findOne({ 
         email: req.body.email,
      })
-     .exec();
-     
+     .exec(User);
 };
 
-const saveUser = async (user) => {
+const saveUser = async (User) => {
     console.log('Real User');
-   return await user.save();
+   return await User.save();
 };
 
 const disconnect = async () => {
@@ -26,4 +30,4 @@ const disconnect = async () => {
 };
 
 
-module.exports = { connect, findUser,  saveUser,  disconnect };
+module.exports = { connect, findUser, postUser, saveUser,  disconnect };
