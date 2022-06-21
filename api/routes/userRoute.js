@@ -1,9 +1,10 @@
 const express = require('express');
-const user = require('../model/user');
+const User = require('../model/user');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const checkAuth = require('../auth/checkAuth');
 require('dotenv').config();
 
 router.use(express.json());
@@ -14,7 +15,7 @@ router.post('/signup', (req, res,next) => {
 //if user email exist
 //if not found encrypt password
 //made user model and save to mongodb
-user.findOne({email: req.body.email})
+User.findOne({email: req.body.email});
 const password = req.user.password;
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
@@ -27,12 +28,18 @@ const password = req.user.password;
                 password: hash,
             });
             //save to db
-            res.status(201).json({
-                message: 'Signup - POST',
-                user: user
-                });
+            user
+            .save()
+            .then((result) => {
+                res.status(201).json({
+                    message: 'User Created',
+                    result: result,
+                    });
+        })
+            .catch((err) => console.log(err.message));
         }
-    })});
+    });
+});
 
 router.post('/login', (req, res) => {
     //  findUser by email address findOne{email: _id}
@@ -43,26 +50,13 @@ router.post('/login', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
 
-    user.findOne({email: req.body.email})
-    .then(   
-        bcrypt.compare(req.body.password, user.body.hash, (err, result) => {
-            if(err)return res.status(501).json({message: err.message })
-            if(result){
-                res.status(200).json({
-                message: 'Login - POST,  Authorization Successful',
-                result: result,
-                name: req.body.firstName
-                })
-            }
-            else {
-                res.status(409).json({
-                    message: 'Authorization Failed',
-                });
-            }
+    User.findOne({email: req.body.email}).then((user) => {
+        console.log(user);   
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if(err)return res.status(501).json({message: err.message });
             if(result){
                 const token = jwt.sign(
-                    { email: email, firstName: firstName, lastName: lastName },
-                    process.env.secret
+                    { email: email, firstName: firstName, lastName: lastName }, process.env.key
                 );
 
                 res.status(201).json({
@@ -74,21 +68,13 @@ router.post('/login', (req, res) => {
                 res.status(401).json({
                     message: 'Authorization Failed',
                 });
-            };
-        }));
+            }
+        });
+    });
 });
 
 router.get('/profile', checkAuth , (req,res, next) => {
-
-    user.findOne({_id: email})
-    .populate("user","email")
-    .then (result => {
-        if(err)return res.status(501).json({message: 'Authorization Failed' })
-        if(result){
-            res.status(200).json({
-            message: '/profile - GET',
-            });
-        };
-})});
+    res.status(200).json({ message: req.userData });
+});
 
 module.exports = router;
