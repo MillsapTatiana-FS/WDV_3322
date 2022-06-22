@@ -5,7 +5,7 @@ const options = require('../config/options');
 const cors = require('cors');
 const {mongoose } = require('mongoose');
 
-require("dotenv").config();
+require('dotenv').config();
 
 app.use(express.json());
 app.use(cors(options));
@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 });
 
 app.use('/userRoute', userRoute);
-app.use("/post", postRoute);
 // add middleware to handle errors and bad url paths
 app.use((req, res, next) => {
     const error = new Error ('NOT FOUND!!! ');
