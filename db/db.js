@@ -7,21 +7,16 @@ const connect = async () => {
     await mongoose.connect('mongodb://localhost:27017/users/')
 };
 
-const postUser = async(User) => {
-    console.log('Real User');
-    return await User.save();
-};
-
-const findUser = async (User) => {
-    await userInfo.findOne({ 
-        email: req.body.email,
+const findUser = async (email) => {
+    return await User.findOne({ 
+        email: email,
      })
-     .exec(User);
+     .exec();
 };
 
-const saveUser = async (User) => {
+const saveUser = async (user) => {
     console.log('Real User');
-   return await User.save();
+   return await user.save();
 };
 
 const disconnect = async () => {
@@ -30,4 +25,4 @@ const disconnect = async () => {
 };
 
 
-module.exports = { connect, findUser, postUser, saveUser,  disconnect };
+module.exports = { connect, findUser, saveUser,  disconnect };
