@@ -4,8 +4,9 @@ require('dotenv').config();
 const checkAuth = (req, res, next) => {
     try {
         const [bearer, token] = req.headers.authorization.split(' ');
-        const payload = jwt.verify(token, process.env.key);
-        req.userData =
+        const decoded = jwt.verify(token, process.env.key);
+        req.userData = decoded;
+        next();
     } catch (error) {
         res.status(401).json({ message: 'Authorization Failed' });
     }
