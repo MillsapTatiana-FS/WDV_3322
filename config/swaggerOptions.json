@@ -1,0 +1,31 @@
+ {
+        "openapi": "3.0.2",
+       "info": {
+            "title": "Post API Docs",
+            "version": "1.6.1",
+            "contact": "A post api with json web token security"
+        },
+       "servers": [
+            {
+            "url": "http://localhost:3001/posts"
+            }
+        ],
+        "components": {
+           "securitySchemes": {
+                "bearerAuth": {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+            }
+        },
+        "security": [
+            {
+               " bearerAuth": []
+            }
+        ]
+    }
+   "apis": "['./api/routes/*.js']"
+
+
+module.exports = swagOptions;

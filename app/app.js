@@ -4,6 +4,9 @@ const app = express();
 const options = require('../config/options');
 const cors = require('cors');
 const {mongoose } = require('mongoose');
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+const swagOptions = require('../config/swaggerOptions');
 
 require('dotenv').config();
 
@@ -17,6 +20,10 @@ app.get("/", (req, res) => {
 });
 
 app.use('/users', userRoute);
+
+const swaggerDocs = swaggerJsDoc(swagOptions);
+console.log(swaggerDocs);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 // add middleware to handle errors and bad url paths
 app.use((req, res, next) => {
     const error = new Error ('NOT FOUND!!! ');

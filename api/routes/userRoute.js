@@ -8,6 +8,31 @@ const checkAuth = require('../auth/checkAuth');
 require('dotenv').config();
 const { findUser, saveUser } = require('../../db/db');
 
+/**
+ * @swagger
+ * tags:
+ *  name: User Signup
+ *  description: This is for the user signup
+ * /signup:
+ *  post: 
+ *          tags: [user signup]
+ *          requestBody:
+ *                  required: true
+ *                  content:
+ *                     application/json:
+ *                              schema:
+ *                                  type: object
+ *                                  properties:
+ *                                          name: firstname
+ *                                               type:string
+ *                                              default:Why me
+ *                                          post:
+ *                                                  type: string
+ *                                                  default: Because
+ *              responses:
+ *                  default:
+ *                          description: Success
+ */
 router.use(express.json());
 
 router.get('/profile', checkAuth , (req,res, next) => {
